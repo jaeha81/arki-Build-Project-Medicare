@@ -8,6 +8,7 @@ export interface AuthUser {
 
 export interface AuthState {
   user: AuthUser | null
+  /** @deprecated 토큰은 HttpOnly 쿠키에서 관리됩니다. 이 필드는 하위 호환성을 위해 유지됩니다. */
   accessToken: string | null
   isLoading: boolean
 }

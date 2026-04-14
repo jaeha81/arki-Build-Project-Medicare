@@ -19,7 +19,7 @@ __all__: list[str] = []
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-_DEV_MODE = not settings.supabase_url
+_DEV_MODE = not settings.supabase_url and settings.debug
 
 
 def _issue_dev_jwt(user_id: str, email: str, full_name: str | None) -> str:
@@ -45,6 +45,11 @@ async def register(body: RegisterRequest) -> AuthResponse:
             user_id=user_id,
             email=body.email,
             full_name=body.full_name,
+        )
+    elif not settings.supabase_url:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication service not configured. Set SUPABASE_URL in environment.",
         )
 
     url = f"{settings.supabase_url}/auth/v1/signup"
@@ -88,6 +93,11 @@ async def login(body: LoginRequest) -> AuthResponse:
             access_token=token,
             user_id=user_id,
             email=body.email,
+        )
+    elif not settings.supabase_url:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Authentication service not configured. Set SUPABASE_URL in environment.",
         )
 
     url = f"{settings.supabase_url}/auth/v1/token?grant_type=password"

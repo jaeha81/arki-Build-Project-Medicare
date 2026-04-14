@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConsultationList } from "@/components/dashboard/consultation-list"
 import { SubscriptionCard } from "@/components/dashboard/subscription-card"
 import { useAuthStore } from "@/stores/auth-store"
-import { apiClient } from "@/lib/api-client"
 import { useLogout } from "@/hooks/use-auth"
 import type { ConsultationStatus } from "@/types/consultation"
 import type { Subscription } from "@/types/subscription"
@@ -21,40 +20,43 @@ interface ConsultationItem {
   created_at: string
 }
 
+async function fetchWithCookie<T>(path: string): Promise<T> {
+  const res = await fetch(path, { credentials: "same-origin" })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ message: res.statusText })) as { message?: string }
+    throw new Error(err.message ?? "Request failed")
+  }
+  return res.json() as Promise<T>
+}
+
 export default function DashboardPage() {
   const params = useParams()
   const router = useRouter()
   const locale = typeof params.locale === "string" ? params.locale : "en"
-  const { user, accessToken } = useAuthStore()
+  const { user } = useAuthStore()
   const logout = useLogout(locale)
 
   useEffect(() => {
-    if (!user || !accessToken) {
+    if (!user) {
       router.push(`/${locale}/auth/login`)
     }
-  }, [user, accessToken, locale, router])
+  }, [user, locale, router])
 
   const consultationsQuery = useQuery({
-    queryKey: ["customer-consultations", accessToken],
+    queryKey: ["customer-consultations"],
     queryFn: () =>
-      apiClient.authGet<ConsultationItem[]>(
-        "/api/v1/customer/consultations",
-        accessToken!
-      ),
-    enabled: !!accessToken,
+      fetchWithCookie<ConsultationItem[]>("/api/proxy/customer/consultations"),
+    enabled: !!user,
   })
 
   const subscriptionsQuery = useQuery({
-    queryKey: ["customer-subscriptions", accessToken],
+    queryKey: ["customer-subscriptions"],
     queryFn: () =>
-      apiClient.authGet<Subscription[]>(
-        "/api/v1/customer/subscriptions",
-        accessToken!
-      ),
-    enabled: !!accessToken,
+      fetchWithCookie<Subscription[]>("/api/proxy/customer/subscriptions"),
+    enabled: !!user,
   })
 
-  if (!user || !accessToken) {
+  if (!user) {
     return null
   }
 

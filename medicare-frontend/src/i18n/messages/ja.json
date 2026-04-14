@@ -1,12 +1,12 @@
 {
   "nav": {
-    "weightLoss": "体重管理",
+    "weightLoss": "ダイエット・体重管理",
     "skinCare": "スキンケア",
     "hairCare": "ヘアケア",
     "womensHealth": "女性の健康",
-    "howItWorks": "ご利用方法",
+    "howItWorks": "ご利用の流れ",
     "faq": "よくある質問",
-    "startConsultation": "無料相談を始める"
+    "startConsultation": "相談を始める"
   },
   "home": {
     "hero": {
@@ -22,7 +22,7 @@
     },
     "categories": {
       "weightLoss": {
-        "name": "体重管理",
+        "name": "ダイエット・体重管理",
         "description": "あなたの目標に合わせた医師監督による体重管理プログラム。"
       },
       "skinCare": {
@@ -54,7 +54,7 @@
     }
   },
   "consultation": {
-    "title": "相談を開始する",
+    "title": "オンライン相談を始める",
     "step1": { "title": "カテゴリー選択" },
     "step2": { "title": "基本情報" },
     "step3": { "title": "健康アンケート" },
@@ -82,24 +82,29 @@
     }
   },
   "auth": {
-    "login": "サインイン",
+    "login": "ログイン",
     "register": "アカウント作成",
     "email": "メールアドレス",
     "password": "パスワード",
-    "fullName": "氏名",
+    "fullName": "お名前",
     "loginTitle": "おかえりなさい",
-    "registerTitle": "始めましょう",
-    "noAccount": "アカウントをお持ちでないですか？",
-    "hasAccount": "すでにアカウントをお持ちですか？"
+    "registerTitle": "新規登録",
+    "noAccount": "アカウントをお持ちでない方は",
+    "hasAccount": "すでにアカウントをお持ちの方は",
+    "confirmPassword": "パスワード（確認）",
+    "loginButton": "ログイン",
+    "registerButton": "登録する",
+    "loggingIn": "ログイン中...",
+    "registering": "登録中..."
   },
   "dashboard": {
-    "title": "マイダッシュボード",
+    "title": "マイページ",
     "welcome": "おかえりなさい",
     "consultations": "相談履歴",
-    "subscriptions": "サブスクリプション",
-    "noConsultations": "相談はまだありません",
-    "noSubscriptions": "有効なサブスクリプションはありません",
-    "newConsultation": "相談を開始する",
+    "subscriptions": "ご利用プラン",
+    "noConsultations": "相談履歴はありません",
+    "noSubscriptions": "ご利用中のプランはありません",
+    "newConsultation": "新しい相談を始める",
     "viewPlans": "プランを見る"
   },
   "legal": {

@@ -35,9 +35,11 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:password@postgres:5432/medicare
       REDIS_URL: redis://redis:6379
-      JWT_SECRET: dev-secret-change-in-production
-      ADMIN_API_TOKEN: dev-admin-token-placeholder
       DEBUG: "true"
+      # 프로덕션 배포 전 반드시 강력한 시크릿으로 교체하세요:
+      # JWT_SECRET: <run: python -c "import secrets; print(secrets.token_hex(32))">
+      # ADMIN_API_TOKEN: <run: python -c "import secrets; print(secrets.token_hex(32))">
+      # ANTHROPIC_API_KEY: <your-api-key>
     depends_on:
       postgres:
         condition: service_healthy
