@@ -27,8 +27,21 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function authRequest<T>(path: string, token: string, options?: RequestInit): Promise<T> {
+  return request<T>(path, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...options?.headers,
+    },
+  });
+}
+
 export const apiClient = {
   get: <T>(path: string) => request<T>(path),
   post: <T>(path: string, body: unknown) =>
     request<T>(path, { method: "POST", body: JSON.stringify(body) }),
+  authGet: <T>(path: string, token: string) => authRequest<T>(path, token),
+  authPost: <T>(path: string, token: string, body: unknown) =>
+    authRequest<T>(path, token, { method: "POST", body: JSON.stringify(body) }),
 };

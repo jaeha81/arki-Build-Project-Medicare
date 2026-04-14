@@ -17,6 +17,15 @@ export default function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Dashboard route protection
+  if (pathname.match(/^\/(en|ja)\/dashboard/)) {
+    const token = request.cookies.get("medicare_auth")?.value;
+    if (!token) {
+      const locale = pathname.split("/")[1];
+      return NextResponse.redirect(new URL(`/${locale}/auth/login`, request.url));
+    }
+  }
+
   return intlMiddleware(request);
 }
 

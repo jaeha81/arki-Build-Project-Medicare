@@ -81,6 +81,27 @@
       "step3": "If appropriate, a treatment plan will be prepared for you."
     }
   },
+  "auth": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "loginTitle": "Welcome Back",
+    "registerTitle": "Get Started",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "dashboard": {
+    "title": "My Dashboard",
+    "welcome": "Welcome back",
+    "consultations": "My Consultations",
+    "subscriptions": "My Subscriptions",
+    "noConsultations": "No consultations yet",
+    "noSubscriptions": "No active subscriptions",
+    "newConsultation": "Start Consultation",
+    "viewPlans": "View Plans"
+  },
   "legal": {
     "draftBanner": "DRAFT — Pending legal review. Not legally binding."
   },

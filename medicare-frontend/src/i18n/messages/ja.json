@@ -81,6 +81,27 @@
       "step3": "適切な場合、治療計画をご準備します。"
     }
   },
+  "auth": {
+    "login": "サインイン",
+    "register": "アカウント作成",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "fullName": "氏名",
+    "loginTitle": "おかえりなさい",
+    "registerTitle": "始めましょう",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "hasAccount": "すでにアカウントをお持ちですか？"
+  },
+  "dashboard": {
+    "title": "マイダッシュボード",
+    "welcome": "おかえりなさい",
+    "consultations": "相談履歴",
+    "subscriptions": "サブスクリプション",
+    "noConsultations": "相談はまだありません",
+    "noSubscriptions": "有効なサブスクリプションはありません",
+    "newConsultation": "相談を開始する",
+    "viewPlans": "プランを見る"
+  },
   "legal": {
     "draftBanner": "下書き — 法的審査中。法的拘束力はありません。"
   },

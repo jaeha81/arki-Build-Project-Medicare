@@ -9,6 +9,16 @@ __all__ = [
     "IntakeOutput",
     "ComplianceInput",
     "ComplianceOutput",
+    "OfferInput",
+    "OfferOutput",
+    "RetentionInput",
+    "RetentionOutput",
+    "CrossSellInput",
+    "CrossSellOutput",
+    "ReviewInput",
+    "ReviewOutput",
+    "CSInput",
+    "CSOutput",
 ]
 
 
@@ -89,3 +99,115 @@ class ComplianceOutput(BaseModel):
     compliance_score: float = Field(ge=0.0, le=1.0)
     automated_fix_applied: bool = False
     requires_human_review: bool
+
+
+# ---------------------------------------------------------------------------
+# Offer agent schemas
+# ---------------------------------------------------------------------------
+
+class OfferInput(BaseModel):
+    """Input schema for OfferAgent."""
+
+    customer_id: str
+    vertical: str = Field(description="One of: weight-loss | skin-care | hair-care | womens-health")
+    consultation_data: dict
+
+
+class OfferOutput(BaseModel):
+    """Structured output produced by OfferAgent."""
+
+    offer_id: str
+    title: str
+    description: str
+    discount_pct: float = Field(ge=0.0, le=100.0)
+    validity_days: int = Field(ge=1)
+    target_segment: str
+
+
+# ---------------------------------------------------------------------------
+# Retention agent schemas
+# ---------------------------------------------------------------------------
+
+class RetentionInput(BaseModel):
+    """Input schema for RetentionAgent."""
+
+    customer_id: str
+    subscription_days: int = Field(ge=0)
+    last_login_days: int = Field(ge=0)
+    cancellation_risk_score: float = Field(ge=0.0, le=1.0)
+
+
+class RetentionOutput(BaseModel):
+    """Structured output produced by RetentionAgent."""
+
+    retention_id: str
+    risk_level: str = Field(description="One of: low | medium | high | critical")
+    message: str
+    action_type: str
+    send_channel: str = Field(description="One of: email | sms | push | in-app")
+
+
+# ---------------------------------------------------------------------------
+# CrossSell agent schemas
+# ---------------------------------------------------------------------------
+
+class CrossSellInput(BaseModel):
+    """Input schema for CrossSellAgent."""
+
+    customer_id: str
+    current_verticals: list[str]
+    purchase_history: dict
+
+
+class CrossSellOutput(BaseModel):
+    """Structured output produced by CrossSellAgent."""
+
+    crosssell_id: str
+    recommended_vertical: str
+    reason: str
+    priority_score: float = Field(ge=0.0, le=1.0)
+
+
+# ---------------------------------------------------------------------------
+# Review agent schemas
+# ---------------------------------------------------------------------------
+
+class ReviewInput(BaseModel):
+    """Input schema for ReviewAgent."""
+
+    review_id: str
+    review_text: str = Field(min_length=1)
+    rating: int = Field(ge=1, le=5)
+    vertical: str
+
+
+class ReviewOutput(BaseModel):
+    """Structured output produced by ReviewAgent."""
+
+    review_analysis_id: str
+    sentiment: str = Field(description="One of: positive | neutral | negative")
+    key_themes: list[str]
+    compliance_flag: bool
+    recommended_response: str
+
+
+# ---------------------------------------------------------------------------
+# CS agent schemas
+# ---------------------------------------------------------------------------
+
+class CSInput(BaseModel):
+    """Input schema for CSAgent."""
+
+    ticket_id: str
+    customer_message: str = Field(min_length=1)
+    category: str
+    vertical: str
+
+
+class CSOutput(BaseModel):
+    """Structured output produced by CSAgent."""
+
+    cs_response_id: str
+    draft_response: str
+    confidence_score: float = Field(ge=0.0, le=1.0)
+    escalate_to_human: bool
