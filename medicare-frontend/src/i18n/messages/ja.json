@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "weightLoss": "体重管理",
+    "skinCare": "スキンケア",
+    "hairCare": "ヘアケア",
+    "womensHealth": "女性の健康",
+    "howItWorks": "ご利用方法",
+    "faq": "よくある質問",
+    "startConsultation": "無料相談を始める"
+  },
+  "home": {
+    "hero": {
+      "headline": "オンライン医療相談、ご自宅まで配送",
+      "subtext": "認定医師による診察。科学的根拠に基づく治療。プライベートな配送。",
+      "cta": "無料相談を始める"
+    },
+    "trust": {
+      "licensedDoctors": "認定医師",
+      "privacyFirst": "プライバシー重視",
+      "fastDelivery": "迅速配送",
+      "ongoing": "継続サポート"
+    },
+    "categories": {
+      "weightLoss": {
+        "name": "体重管理",
+        "description": "あなたの目標に合わせた医師監督による体重管理プログラム。"
+      },
+      "skinCare": {
+        "name": "スキンケア",
+        "description": "ニキビ、エイジングケアなどに対応した処方強度のスキンケアソリューション。"
+      },
+      "hairCare": {
+        "name": "ヘアケア",
+        "description": "毛髪の健康と成長をサポートする臨床的に実証された治療法。"
+      },
+      "womensHealth": {
+        "name": "女性の健康",
+        "description": "ホルモンバランスと生殖器の健康のためのパーソナライズされたケア。"
+      }
+    },
+    "process": {
+      "title": "ご利用の流れ",
+      "step1": { "title": "問診票に記入", "desc": "オンラインで簡単な健康アンケートにお答えください。" },
+      "step2": { "title": "医師による審査", "desc": "認定医師がお客様の情報を確認します。" },
+      "step3": { "title": "処方・治療計画", "desc": "適切な場合、個別の治療計画をご提供します。" },
+      "step4": { "title": "ご自宅へ配送", "desc": "薬をプライベートにご自宅へ配送します。" }
+    },
+    "faqPreview": {
+      "title": "よくある質問"
+    },
+    "bottomCta": {
+      "headline": "健康の第一歩を踏み出しませんか？",
+      "cta": "無料相談を始める"
+    }
+  },
+  "consultation": {
+    "title": "相談を開始する",
+    "step1": { "title": "カテゴリー選択" },
+    "step2": { "title": "基本情報" },
+    "step3": { "title": "健康アンケート" },
+    "step4": { "title": "治療の希望" },
+    "step5": { "title": "確認・送信" },
+    "fields": {
+      "name": "氏名",
+      "email": "メールアドレス",
+      "ageRange": "年齢層",
+      "preferredLanguage": "希望言語"
+    },
+    "consent": {
+      "terms": "利用規約に同意します",
+      "privacy": "プライバシーポリシーに同意します",
+      "medical": "これは対面診療の代替ではないことを理解しています"
+    },
+    "submit": "相談を送信する",
+    "success": {
+      "title": "相談が送信されました",
+      "message": "ありがとうございます。認定医師が24〜48時間以内にお客様の情報を確認します。",
+      "nextSteps": "次のステップ",
+      "step1": "医療チームがアンケートを確認します。",
+      "step2": "相談結果をメールでお知らせします。",
+      "step3": "適切な場合、治療計画をご準備します。"
+    }
+  },
+  "legal": {
+    "draftBanner": "下書き — 法的審査中。法的拘束力はありません。"
+  },
+  "footer": {
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "disclaimer": "医療免責事項",
+    "contact": "お問い合わせ",
+    "copyright": "© 2026 Project Medicare. All rights reserved.",
+    "complianceNote": "このプラットフォームは患者と認定医師をつなぐものです。対面診療の代替ではありません。"
+  }
+}

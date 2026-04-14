@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "weightLoss": "Weight Loss",
+    "skinCare": "Skin Care",
+    "hairCare": "Hair Care",
+    "womensHealth": "Women's Health",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "startConsultation": "Start Consultation"
+  },
+  "home": {
+    "hero": {
+      "headline": "Online Medical Consultation, Delivered to Your Door",
+      "subtext": "Licensed physicians. Science-backed treatments. Discreet delivery.",
+      "cta": "Start Free Consultation"
+    },
+    "trust": {
+      "licensedDoctors": "Licensed Physicians",
+      "privacyFirst": "Privacy First",
+      "fastDelivery": "Fast Delivery",
+      "ongoing": "Ongoing Support"
+    },
+    "categories": {
+      "weightLoss": {
+        "name": "Weight Loss",
+        "description": "Medically supervised weight management programs tailored to your goals."
+      },
+      "skinCare": {
+        "name": "Skin Care",
+        "description": "Prescription-strength skincare solutions for acne, aging, and more."
+      },
+      "hairCare": {
+        "name": "Hair Care",
+        "description": "Clinically proven treatments to support hair health and growth."
+      },
+      "womensHealth": {
+        "name": "Women's Health",
+        "description": "Personalized care for hormonal balance and reproductive wellness."
+      }
+    },
+    "process": {
+      "title": "How It Works",
+      "step1": { "title": "Complete Consultation", "desc": "Answer a brief health questionnaire online." },
+      "step2": { "title": "Doctor Review", "desc": "A licensed physician reviews your information." },
+      "step3": { "title": "Prescription", "desc": "Receive a personalized treatment plan if appropriate." },
+      "step4": { "title": "Delivered", "desc": "Medications shipped discreetly to your door." }
+    },
+    "faqPreview": {
+      "title": "Frequently Asked Questions"
+    },
+    "bottomCta": {
+      "headline": "Ready to start your health journey?",
+      "cta": "Begin Free Consultation"
+    }
+  },
+  "consultation": {
+    "title": "Start Your Consultation",
+    "step1": { "title": "Select Category" },
+    "step2": { "title": "Basic Information" },
+    "step3": { "title": "Health Survey" },
+    "step4": { "title": "Treatment Preferences" },
+    "step5": { "title": "Review & Submit" },
+    "fields": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "ageRange": "Age Range",
+      "preferredLanguage": "Preferred Language"
+    },
+    "consent": {
+      "terms": "I agree to the Terms of Use",
+      "privacy": "I agree to the Privacy Policy",
+      "medical": "I understand this is not a substitute for in-person medical care"
+    },
+    "submit": "Submit Consultation",
+    "success": {
+      "title": "Consultation Submitted",
+      "message": "Thank you! A licensed physician will review your information within 24–48 hours.",
+      "nextSteps": "What happens next?",
+      "step1": "Our medical team reviews your questionnaire.",
+      "step2": "You'll receive an email with your consultation results.",
+      "step3": "If appropriate, a treatment plan will be prepared for you."
+    }
+  },
+  "legal": {
+    "draftBanner": "DRAFT — Pending legal review. Not legally binding."
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "disclaimer": "Medical Disclaimer",
+    "contact": "Contact",
+    "copyright": "© 2026 Project Medicare. All rights reserved.",
+    "complianceNote": "This platform connects patients with licensed physicians. It is not a substitute for in-person medical care."
+  }
+}
