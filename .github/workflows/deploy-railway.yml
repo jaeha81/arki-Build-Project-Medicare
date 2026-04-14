@@ -1,0 +1,45 @@
+name: Deploy — Railway (Backend + Agents)
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "medicare-backend/**"
+      - "medicare-agents/**"
+      - "railway.toml"
+
+concurrency:
+  group: deploy-railway
+  cancel-in-progress: true
+
+jobs:
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install -g @railway/cli
+      - name: Deploy medicare-backend
+        run: railway up --service=medicare-backend --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  deploy-agents:
+    name: Deploy Agents
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [deploy-backend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install -g @railway/cli
+      - name: Deploy medicare-agents
+        run: railway up --service=medicare-agents --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

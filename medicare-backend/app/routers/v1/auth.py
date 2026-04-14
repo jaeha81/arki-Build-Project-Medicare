@@ -10,9 +10,12 @@ import uuid
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from jose import jwt
+from sqlalchemy import select
 
 from app.config import settings
+from app.database import AsyncSessionLocal
 from app.dependencies import get_current_customer
+from app.models.customer import Customer
 from app.schemas.auth import AuthResponse, LoginRequest, RegisterRequest, TokenPayload
 
 __all__: list[str] = []
@@ -39,6 +42,17 @@ async def register(body: RegisterRequest) -> AuthResponse:
     """Create a new customer account."""
     if _DEV_MODE:
         user_id = str(uuid.uuid4())
+        async with AsyncSessionLocal() as _db:
+            _existing = await _db.execute(
+                select(Customer).where(Customer.supabase_uid == user_id)
+            )
+            if _existing.scalar_one_or_none() is None:
+                _db.add(Customer(
+                    supabase_uid=user_id,
+                    email=body.email,
+                    full_name=body.full_name,
+                ))
+                await _db.commit()
         token = _issue_dev_jwt(user_id, body.email, body.full_name)
         return AuthResponse(
             access_token=token,
@@ -74,12 +88,25 @@ async def register(body: RegisterRequest) -> AuthResponse:
     user: dict = data.get("user") or {}
     user_id: str = user.get("id", "")
     user_meta: dict = user.get("user_metadata") or {}
+    full_name: str | None = user_meta.get("full_name")
+
+    async with AsyncSessionLocal() as _db:
+        _existing = await _db.execute(
+            select(Customer).where(Customer.supabase_uid == user_id)
+        )
+        if _existing.scalar_one_or_none() is None:
+            _db.add(Customer(
+                supabase_uid=user_id,
+                email=body.email,
+                full_name=full_name,
+            ))
+            await _db.commit()
 
     return AuthResponse(
         access_token=access_token,
         user_id=user_id,
         email=body.email,
-        full_name=user_meta.get("full_name"),
+        full_name=full_name,
     )
 
 

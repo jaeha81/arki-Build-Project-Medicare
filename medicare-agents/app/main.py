@@ -3,9 +3,23 @@
 from fastapi import FastAPI, HTTPException, status
 
 from app.agents.compliance_agent import ComplianceGateAgent
+from app.agents.crosssell_agent import CrossSellAgent
+from app.agents.cs_agent import CSAgent
 from app.agents.intake_agent import IntakeAgent
+from app.agents.offer_agent import OfferAgent
+from app.agents.retention_agent import RetentionAgent
+from app.agents.review_agent import ReviewAgent
 from app.queue.redis_client import RedisClient
-from app.schemas.agent_schemas import AgentResult, ComplianceInput, IntakeInput
+from app.schemas.agent_schemas import (
+    AgentResult,
+    ComplianceInput,
+    CrossSellInput,
+    CSInput,
+    IntakeInput,
+    OfferInput,
+    RetentionInput,
+    ReviewInput,
+)
 
 __all__ = ["app"]
 
@@ -39,10 +53,20 @@ async def health_check() -> dict:
 
 @app.get("/agents/queue/status", tags=["queue"])
 async def queue_status() -> dict:
-    """Return current length of the intake processing queue."""
+    """Return current length of all agent processing queues."""
     intake_length = await _redis.queue_length("intake_queue")
+    offer_length = await _redis.queue_length("offer_queue")
+    retention_length = await _redis.queue_length("retention_queue")
+    crosssell_length = await _redis.queue_length("crosssell_queue")
+    review_length = await _redis.queue_length("review_queue")
+    cs_length = await _redis.queue_length("cs_queue")
     return {
         "intake_queue": intake_length,
+        "offer_queue": offer_length,
+        "retention_queue": retention_length,
+        "crosssell_queue": crosssell_length,
+        "review_queue": review_length,
+        "cs_queue": cs_length,
     }
 
 
@@ -99,5 +123,115 @@ async def run_compliance_agent(payload: ComplianceInput) -> AgentResult:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=result.error or "ComplianceGateAgent execution failed.",
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Offer agent
+# ---------------------------------------------------------------------------
+
+@app.post(
+    "/agents/offer",
+    response_model=AgentResult,
+    status_code=status.HTTP_200_OK,
+    tags=["agents"],
+)
+async def run_offer_agent(payload: OfferInput) -> AgentResult:
+    """Execute the OfferAgent with customer profile data."""
+    agent = OfferAgent()
+    result = await agent.execute(payload.model_dump())
+    if not result.success:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.error or "OfferAgent execution failed.",
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Retention agent
+# ---------------------------------------------------------------------------
+
+@app.post(
+    "/agents/retention",
+    response_model=AgentResult,
+    status_code=status.HTTP_200_OK,
+    tags=["agents"],
+)
+async def run_retention_agent(payload: RetentionInput) -> AgentResult:
+    """Execute the RetentionAgent with customer subscription data."""
+    agent = RetentionAgent()
+    result = await agent.execute(payload.model_dump())
+    if not result.success:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.error or "RetentionAgent execution failed.",
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# CrossSell agent
+# ---------------------------------------------------------------------------
+
+@app.post(
+    "/agents/crosssell",
+    response_model=AgentResult,
+    status_code=status.HTTP_200_OK,
+    tags=["agents"],
+)
+async def run_crosssell_agent(payload: CrossSellInput) -> AgentResult:
+    """Execute the CrossSellAgent with customer purchase history."""
+    agent = CrossSellAgent()
+    result = await agent.execute(payload.model_dump())
+    if not result.success:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.error or "CrossSellAgent execution failed.",
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Review agent
+# ---------------------------------------------------------------------------
+
+@app.post(
+    "/agents/review",
+    response_model=AgentResult,
+    status_code=status.HTTP_200_OK,
+    tags=["agents"],
+)
+async def run_review_agent(payload: ReviewInput) -> AgentResult:
+    """Execute the ReviewAgent with customer review data."""
+    agent = ReviewAgent()
+    result = await agent.execute(payload.model_dump())
+    if not result.success:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.error or "ReviewAgent execution failed.",
+        )
+    return result
+
+
+# ---------------------------------------------------------------------------
+# CS agent
+# ---------------------------------------------------------------------------
+
+@app.post(
+    "/agents/cs",
+    response_model=AgentResult,
+    status_code=status.HTTP_200_OK,
+    tags=["agents"],
+)
+async def run_cs_agent(payload: CSInput) -> AgentResult:
+    """Execute the CSAgent with customer support ticket data."""
+    agent = CSAgent()
+    result = await agent.execute(payload.model_dump())
+    if not result.success:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.error or "CSAgent execution failed.",
         )
     return result

@@ -1,7 +1,14 @@
 """Admin subscription management endpoints."""
 
-from fastapi import APIRouter, HTTPException, status
+import uuid as _uuid
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.database import get_db
+from app.models.subscription import Subscription
 
 __all__: list[str] = []
 
@@ -28,56 +35,61 @@ class SubscriptionPatch(BaseModel):
     status: str
 
 
-# ---------------------------------------------------------------------------
-# Mock data — replace with real DB queries once schema is migrated.
-# ---------------------------------------------------------------------------
-
-_MOCK_SUBSCRIPTIONS: list[SubscriptionRecord] = [
-    SubscriptionRecord(
-        id="sub-001",
-        customer_id="cust-001",
-        vertical="weight-loss",
-        plan="premium",
-        status="active",
-        renewal_date="2026-05-01",
-    ),
-    SubscriptionRecord(
-        id="sub-002",
-        customer_id="cust-002",
-        vertical="skin-care",
-        plan="basic",
-        status="paused",
-        renewal_date="2026-04-20",
-    ),
-]
-
-
 @router.get("", response_model=SubscriptionListResponse)
 async def list_subscriptions(
     page: int = 1,
     page_size: int = 20,
+    db: AsyncSession = Depends(get_db),
 ) -> SubscriptionListResponse:
     """Return paginated list of all subscriptions."""
-    start = (page - 1) * page_size
-    end = start + page_size
-    items = _MOCK_SUBSCRIPTIONS[start:end]
+    offset = (page - 1) * page_size
+    total = (await db.execute(select(func.count(Subscription.id)))).scalar_one()
+    rows = (
+        await db.execute(select(Subscription).offset(offset).limit(page_size))
+    ).scalars().all()
     return SubscriptionListResponse(
-        items=items,
-        total=len(_MOCK_SUBSCRIPTIONS),
+        items=[
+            SubscriptionRecord(
+                id=str(r.id),
+                customer_id=str(r.customer_id),
+                vertical=r.vertical,
+                plan=r.plan,
+                status=r.status,
+                renewal_date=r.renewal_date,
+            )
+            for r in rows
+        ],
+        total=total,
         page=page,
         page_size=page_size,
     )
 
 
 @router.get("/{subscription_id}", response_model=SubscriptionRecord)
-async def get_subscription(subscription_id: str) -> SubscriptionRecord:
+async def get_subscription(
+    subscription_id: str,
+    db: AsyncSession = Depends(get_db),
+) -> SubscriptionRecord:
     """Return a single subscription by ID."""
-    for sub in _MOCK_SUBSCRIPTIONS:
-        if sub.id == subscription_id:
-            return sub
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Subscription {subscription_id!r} not found",
+    try:
+        uid = _uuid.UUID(subscription_id)
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Invalid UUID")
+    row = (
+        await db.execute(select(Subscription).where(Subscription.id == uid))
+    ).scalar_one_or_none()
+    if not row:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Subscription {subscription_id!r} not found",
+        )
+    return SubscriptionRecord(
+        id=str(row.id),
+        customer_id=str(row.customer_id),
+        vertical=row.vertical,
+        plan=row.plan,
+        status=row.status,
+        renewal_date=row.renewal_date,
     )
 
 
@@ -85,6 +97,7 @@ async def get_subscription(subscription_id: str) -> SubscriptionRecord:
 async def patch_subscription(
     subscription_id: str,
     body: SubscriptionPatch,
+    db: AsyncSession = Depends(get_db),
 ) -> SubscriptionRecord:
     """Update the status of a subscription."""
     allowed_statuses = {"active", "paused", "cancelled", "expired"}
@@ -93,11 +106,26 @@ async def patch_subscription(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"status must be one of {sorted(allowed_statuses)}",
         )
-    for sub in _MOCK_SUBSCRIPTIONS:
-        if sub.id == subscription_id:
-            sub.status = body.status
-            return sub
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Subscription {subscription_id!r} not found",
+    try:
+        uid = _uuid.UUID(subscription_id)
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Invalid UUID")
+    row = (
+        await db.execute(select(Subscription).where(Subscription.id == uid))
+    ).scalar_one_or_none()
+    if not row:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Subscription {subscription_id!r} not found",
+        )
+    row.status = body.status
+    await db.commit()
+    await db.refresh(row)
+    return SubscriptionRecord(
+        id=str(row.id),
+        customer_id=str(row.customer_id),
+        vertical=row.vertical,
+        plan=row.plan,
+        status=row.status,
+        renewal_date=row.renewal_date,
     )
