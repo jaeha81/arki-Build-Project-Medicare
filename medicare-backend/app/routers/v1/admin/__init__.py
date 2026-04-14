@@ -23,7 +23,7 @@ async def require_admin_token(
     return credentials.credentials
 
 
-from app.routers.v1.admin import consultations, approvals, kpi  # noqa: E402
+from app.routers.v1.admin import consultations, approvals, kpi, compliance  # noqa: E402
 
 router = APIRouter(
     prefix="/admin",
@@ -33,3 +33,4 @@ router = APIRouter(
 router.include_router(consultations.router)
 router.include_router(approvals.router)
 router.include_router(kpi.router)
+router.include_router(compliance.router)
