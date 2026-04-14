@@ -29,12 +29,7 @@ export default function AdminLoginPage() {
         setError(body?.message ?? "Invalid credentials. Please try again.");
         return;
       }
-      // Token is set as httpOnly cookie by the server-side API route
-      // Fallback: set client cookie if token returned in body
-      const body = await res.json().catch(() => null) as { token?: string } | null;
-      if (body?.token) {
-        document.cookie = `admin_token=${body.token}; path=/; max-age=86400; samesite=strict`;
-      }
+      // admin_token is set as HttpOnly cookie by the server-side API route
       router.push("/admin");
     } catch {
       setError("Login failed. Please try again.");

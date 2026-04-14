@@ -8,8 +8,19 @@ export async function POST(request: NextRequest) {
   const adminPassword = process.env.ADMIN_DEV_PASSWORD ?? "admin1234";
 
   if (body.email === adminEmail && body.password === adminPassword) {
-    return NextResponse.json({ token: "dev-admin-token-placeholder" });
+    const token = process.env.ADMIN_DEV_TOKEN ?? "dev-admin-token-placeholder";
+    const isProd = process.env.NODE_ENV === "production";
+
+    const response = NextResponse.json({ success: true });
+    response.cookies.set("admin_token", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: "strict",
+      path: "/admin",
+      maxAge: 60 * 60 * 8, // 8 hours
+    });
+    return response;
   }
 
-  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 }

@@ -1,5 +1,5 @@
 # Project Medicare — 작업 인수인계 메모
-> 마지막 업데이트: 2026-04-14  
+> 마지막 업데이트: 2026-04-14
 > GitHub: https://github.com/jaeha81/arki-Build-Project-Medicare.git
 
 ---
@@ -9,7 +9,7 @@
 ```bash
 # 1. 클론
 git clone https://github.com/jaeha81/arki-Build-Project-Medicare.git
-cd arki-Build-Project-Medicare/project-medicare
+cd arki-Build-Project-Medicare
 
 # 2. 환경변수 설정
 cp .env.example .env
@@ -77,8 +77,8 @@ GET  /api/v1/legal/{page_type}
 - `/admin/approvals` — AI 에이전트 승인 큐
 - `/admin/login` — 어드민 로그인
 
-**보안**: admin 라우터 전체 `HTTPBearer` 토큰 보호 (P1 Codex 수정)  
-**어드민 로그인**: `http://localhost:3000/admin/login`  
+**보안**: admin 라우터 전체 `HTTPBearer` 토큰 보호 (P1 Codex 수정)
+**어드민 로그인**: `http://localhost:3000/admin/login`
 - 개발용 임시 계정: `ADMIN_DEV_EMAIL` / `ADMIN_DEV_PASSWORD` (`.env` 참조)
 
 ### ✅ Phase 3 — AI 에이전트 레이어
@@ -105,50 +105,81 @@ GET  /api/v1/legal/{page_type}
 - `/admin/agents/logs` — 에이전트 액션 로그
 - `/admin/compliance` — 컴플라이언스 검사 큐
 
+### ✅ Phase 4 — 고도화 (2026-04-14 완료)
+
+**인증/보안:**
+- Supabase Auth 연동: `POST/GET /api/v1/auth/{register,login,logout,me}`
+- dev fallback: `SUPABASE_URL` 없으면 HS256 JWT 자동 발급 (`DEBUG=true` 시만)
+- Admin JWT RBAC: static bearer token → HS256 JWT + `role=="admin"` 검증
+- 프로덕션 시크릿 검증: `DEBUG=false`에서 32자 미만 시크릿 시 앱 기동 차단
+- JWT 쿠키: `HttpOnly; Secure; SameSite=Strict` (XSS 보호)
+- Next.js API Route 프록시: `/api/auth/*`, `/api/proxy/*`, `/api/admin/auth/login`
+
+**에이전트 5개 추가 (총 7개):**
+- `OfferAgent` (haiku-4-5): 맞춤 오퍼 생성
+- `RetentionAgent` (haiku-4-5): 이탈 위험 감지
+- `CrossSellAgent` (haiku-4-5): 교차 판매 추천
+- `ReviewAgent` (haiku-4-5): 리뷰 분석 + 감성 분류
+- `CSAgent` (sonnet-4-6): 고객 문의 자동 응답
+
+**프론트엔드:**
+- `/[locale]/auth/login`, `/[locale]/auth/register`
+- `/[locale]/dashboard` (고객 마이페이지)
+- i18n: en/ja auth+dashboard 완성
+
+**인프라:**
+- Alembic: `alembic.ini`, `migrations/env.py`, `001_initial_schema` (11 테이블)
+- 배포: `vercel.json`, `railway.toml`, `docker-compose.yml`
+- E2E: Playwright 설정 + 5개 스펙 파일
+
 ---
 
-## 다음 단계 — Phase 4 (고도화)
-
-`docs/PHASE_PLAN.md` 참조. 주요 항목:
+## 다음 단계 — Phase 5
 
 | 우선순위 | 작업 |
 |---------|------|
-| ⭐ HIGH | Supabase Auth 연동 (고객 회원가입/로그인) |
-| ⭐ HIGH | 어드민 JWT RBAC 교체 (현재 bearer token 스텁) |
-| ⭐ HIGH | Offer Agent, Retention Agent, CrossSell Agent 구현 |
-| MED | 고객 대시보드 (`/[locale]/dashboard`) |
-| MED | Alembic 마이그레이션 파일 생성 |
-| MED | Vercel 배포 + Railway/Fly.io 백엔드 배포 |
-| LOW | E2E 테스트 (Playwright) |
-| LOW | Review & CS Agent 구현 |
+| HIGH | Vercel/Railway 실 배포 (환경변수 설정 후 push) |
+| HIGH | Supabase 프로젝트 생성 + DB 마이그레이션 실행 |
+| MED | Admin subscriptions router DB 연결 (현재 mock) |
+| MED | Playwright CI (GitHub Actions) |
+| LOW | Review & CS Agent 실 사용 연동 |
+
+자세한 배포 절차는 `docs/DEPLOY_CHECKLIST.md` 참조.
 
 ---
 
 ## 주요 파일 위치
 
 ```
-project-medicare/
+arki-Build-Project-Medicare/
 ├── .env.example                    ← 환경변수 템플릿
 ├── HANDOFF.md                      ← 이 파일
+├── vercel.json                     ← Vercel 배포 설정
+├── railway.toml                    ← Railway 배포 설정
+├── docker-compose.yml              ← 로컬 전체 스택 실행
 ├── docs/                           ← 설계 문서 전체
+│   ├── DEPLOY_CHECKLIST.md         ← 실 배포 단계별 체크리스트
+│   ├── PHASE_PLAN.md               ← Phase 4+ 계획 및 완료 현황
 │   ├── ARCHITECTURE.md
 │   ├── AGENTS.md                   ← 7개 에이전트 스펙
-│   ├── PHASE_PLAN.md               ← Phase 4+ 계획
 │   ├── API_MAP.md                  ← 전체 API 엔드포인트
 │   └── COMPLIANCE.md
 ├── medicare-frontend/
 │   ├── src/app/                    ← Next.js 페이지
+│   ├── src/app/api/proxy/          ← Next.js API Route 프록시
 │   ├── src/components/admin/       ← 어드민 컴포넌트
 │   ├── src/hooks/                  ← React Query 훅
 │   ├── src/types/                  ← TypeScript 타입
 │   └── src/stores/                 ← Zustand 스토어
 ├── medicare-backend/
 │   ├── app/models/                 ← SQLAlchemy ORM 모델
-│   ├── app/routers/v1/admin/       ← 어드민 API (보호됨)
+│   ├── app/routers/v1/auth/        ← Supabase Auth 연동 라우터
+│   ├── app/routers/v1/admin/       ← 어드민 API (JWT RBAC 보호)
 │   ├── app/services/               ← 비즈니스 로직
+│   ├── migrations/                 ← Alembic 마이그레이션
 │   └── scripts/seed*.py            ← DB 시드 스크립트
 └── medicare-agents/
-    ├── app/agents/                 ← BaseAgent + IntakeAgent + ComplianceAgent
+    ├── app/agents/                 ← 7개 에이전트 (Base + 6 구현체)
     ├── app/queue/redis_client.py   ← Redis 큐 헬퍼
     └── requirements.txt
 ```
@@ -164,10 +195,13 @@ project-medicare/
 | 상태관리 | Zustand + React Query v5 |
 | 백엔드 | FastAPI 0.110, Python 3.11 |
 | ORM | SQLAlchemy 2.0 async + asyncpg |
+| DB 마이그레이션 | Alembic |
 | DB | PostgreSQL (Supabase) |
-| AI | Anthropic Claude API (Haiku/Sonnet/Opus) |
+| 인증 | Supabase Auth + HS256 JWT (dev fallback) |
+| AI | Anthropic Claude API (haiku-4-5 / sonnet-4-6) |
 | 에이전트 큐 | Redis |
 | 이메일 | Resend |
+| E2E 테스트 | Playwright |
 
 ---
 
@@ -178,4 +212,5 @@ project-medicare/
 3. **의료 주장 금지** — `{/* COMPLIANCE PLACEHOLDER */}` 사용
 4. **시크릿 하드코딩 금지** — `.env` 참조
 5. **shadcn/ui Base Nova**: Button은 `asChild` 대신 `render={<Link />}` 패턴
-6. **admin API 보호**: 모든 `/api/v1/admin/*` 엔드포인트는 `require_admin_token` 의존성 필요
+6. **admin API 보호**: 모든 `/api/v1/admin/*` 엔드포인트는 `require_admin_jwt` 의존성 필요 (Phase 4 이후 JWT RBAC)
+7. **프로덕션 보안**: `DEBUG=false` 환경에서 JWT_SECRET / ADMIN_API_TOKEN 32자 미만 시 기동 차단됨
