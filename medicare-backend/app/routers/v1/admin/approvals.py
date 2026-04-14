@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
@@ -19,8 +20,8 @@ async def list_approvals(
 
 @router.post("/{approval_id}/action", response_model=ApprovalListItem)
 async def process_approval(
-    approval_id: str,
-    action: ApprovalAction,
+    approval_id: uuid.UUID,  # P2 fix: FastAPI validates UUID format → 422 on bad input
+    action: ApprovalAction,  # P2 fix: action.action is now Literal["approve","reject"]
     db: AsyncSession = Depends(get_db),
 ) -> ApprovalListItem:
     approval = await admin_service.process_approval(db, approval_id, action)

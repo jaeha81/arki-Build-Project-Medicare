@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.consultation import ConsultationRequest
@@ -21,14 +22,11 @@ async def list_consultations(
 
 async def update_consultation_status(
     db: AsyncSession,
-    consultation_id: str,
+    consultation_id: uuid.UUID,  # P2 fix: FastAPI validates UUID in path param
     update: ConsultationStatusUpdate,
 ) -> ConsultationRequest | None:
-    import uuid as uuid_module
     result = await db.execute(
-        select(ConsultationRequest).where(
-            ConsultationRequest.id == uuid_module.UUID(consultation_id)
-        )
+        select(ConsultationRequest).where(ConsultationRequest.id == consultation_id)
     )
     consultation = result.scalar_one_or_none()
     if not consultation:
@@ -57,19 +55,17 @@ async def list_approvals(
 
 async def process_approval(
     db: AsyncSession,
-    approval_id: str,
+    approval_id: uuid.UUID,  # P2 fix: FastAPI validates UUID in path param
     action: ApprovalAction,
 ) -> AdminApproval | None:
-    import uuid as uuid_module
     result = await db.execute(
-        select(AdminApproval).where(
-            AdminApproval.id == uuid_module.UUID(approval_id)
-        )
+        select(AdminApproval).where(AdminApproval.id == approval_id)
     )
     approval = result.scalar_one_or_none()
     if not approval:
         return None
-    approval.status = "approved" if action.action == "approve" else "rejected"
+    # P2 fix: action.action is now Literal["approve","reject"] — no silent fallback
+    approval.status = action.action + "d"  # "approve" → "approved", "reject" → "rejected"
     approval.review_note = action.note
     await db.commit()
     await db.refresh(approval)
@@ -87,6 +83,6 @@ async def get_stats(db: AsyncSession) -> dict:
     return {
         "total_consultations": total or 0,
         "pending_consultations": pending or 0,
-        "active_subscriptions": 0,  # Placeholder — subscriptions table in Phase 2 full
+        "active_subscriptions": 0,  # Placeholder — subscriptions table Phase 3+
         "pending_approvals": pending_approvals or 0,
     }

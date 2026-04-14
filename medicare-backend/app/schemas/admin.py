@@ -1,6 +1,12 @@
 import uuid
+from typing import Literal
 from pydantic import BaseModel
 from datetime import datetime
+
+# Valid status literals — prevents unconstrained strings from reaching the DB
+ConsultationStatus = Literal["pending", "under_review", "approved", "rejected", "completed"]
+ReviewStatus = Literal["pending", "approved", "rejected"]
+ApprovalActionType = Literal["approve", "reject"]
 
 
 class ConsultationListItem(BaseModel):
@@ -15,7 +21,7 @@ class ConsultationListItem(BaseModel):
 
 
 class ConsultationStatusUpdate(BaseModel):
-    status: str  # pending, under_review, approved, rejected, completed
+    status: ConsultationStatus  # P2 fix: Literal enum — rejects unknown values
 
 
 class ProductUpdate(BaseModel):
@@ -40,7 +46,7 @@ class ReviewListItem(BaseModel):
 
 
 class ReviewStatusUpdate(BaseModel):
-    status: str  # approved, rejected
+    status: ReviewStatus  # P2 fix: Literal enum
 
 
 class ApprovalListItem(BaseModel):
@@ -55,7 +61,7 @@ class ApprovalListItem(BaseModel):
 
 
 class ApprovalAction(BaseModel):
-    action: str  # approve, reject
+    action: ApprovalActionType  # P2 fix: Literal — rejects typos like "aprove"
     note: str | None = None
 
 

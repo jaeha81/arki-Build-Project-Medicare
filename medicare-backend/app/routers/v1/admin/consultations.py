@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
@@ -17,9 +18,16 @@ async def list_consultations(
     return await admin_service.list_consultations(db, status=status, skip=skip, limit=limit)
 
 
+@router.get("/stats", response_model=AdminStats)
+async def get_stats(db: AsyncSession = Depends(get_db)) -> AdminStats:
+    # NOTE: /stats must be declared BEFORE /{consultation_id} to avoid route conflict
+    stats = await admin_service.get_stats(db)
+    return AdminStats(**stats)
+
+
 @router.patch("/{consultation_id}/status", response_model=ConsultationListItem)
 async def update_status(
-    consultation_id: str,
+    consultation_id: uuid.UUID,  # P2 fix: FastAPI validates UUID format → 422 on bad input
     update: ConsultationStatusUpdate,
     db: AsyncSession = Depends(get_db),
 ) -> ConsultationListItem:
@@ -27,9 +35,3 @@ async def update_status(
     if not consultation:
         raise HTTPException(status_code=404, detail="Consultation not found")
     return consultation
-
-
-@router.get("/stats", response_model=AdminStats)
-async def get_stats(db: AsyncSession = Depends(get_db)) -> AdminStats:
-    stats = await admin_service.get_stats(db)
-    return AdminStats(**stats)

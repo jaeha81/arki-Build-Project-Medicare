@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     resend_api_key: str = ""
     jwt_secret: str = "dev-secret-change-in-production"
+    admin_api_token: str = "dev-admin-token-placeholder"  # P1 fix: set in .env for prod
     allowed_origins: list[str] = ["http://localhost:3000"]
     debug: bool = True
 
