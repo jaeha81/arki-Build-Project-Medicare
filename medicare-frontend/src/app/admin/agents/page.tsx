@@ -1,95 +1,27 @@
 "use client";
 
-import { useState } from "react";
 import { Bot, Activity, PlayCircle } from "lucide-react";
 import { AgentCard } from "@/components/admin/agents/agent-card";
-import type { AgentConfiguration } from "@/types/agent";
-
-const MOCK_AGENTS: (AgentConfiguration & { description: string; lastRun: string | null })[] = [
-  {
-    id: "intake",
-    agent_type: "intake",
-    name_en: "Intake Agent",
-    model: "claude-3-haiku",
-    is_enabled: true,
-    config: null,
-    description: "Handles new consultation intake and sends summary emails to customers.",
-    lastRun: "3m ago",
-  },
-  {
-    id: "compliance_gate",
-    agent_type: "compliance_gate",
-    name_en: "Compliance Gate Agent",
-    model: "claude-sonnet-4-6",
-    is_enabled: true,
-    config: null,
-    description: "Scans reviews and content for regulatory compliance violations.",
-    lastRun: "15m ago",
-  },
-  {
-    id: "review_cs",
-    agent_type: "review_cs",
-    name_en: "Review CS Agent",
-    model: "claude-sonnet-4-6",
-    is_enabled: true,
-    config: null,
-    description: "Generates customer service responses for incoming reviews.",
-    lastRun: "1h ago",
-  },
-  {
-    id: "retention",
-    agent_type: "retention",
-    name_en: "Retention Agent",
-    model: "claude-sonnet-4-6",
-    is_enabled: false,
-    config: null,
-    description: "Identifies at-risk subscribers and triggers retention offers.",
-    lastRun: "2h ago",
-  },
-  {
-    id: "offer",
-    agent_type: "offer",
-    name_en: "Offer Agent",
-    model: "claude-sonnet-4-6",
-    is_enabled: true,
-    config: null,
-    description: "Generates personalized product offers based on customer profile.",
-    lastRun: "45m ago",
-  },
-  {
-    id: "cross_sell",
-    agent_type: "cross_sell",
-    name_en: "Cross-Sell Agent",
-    model: "claude-3-haiku",
-    is_enabled: false,
-    config: null,
-    description: "Recommends complementary products during consultation sessions.",
-    lastRun: null,
-  },
-  {
-    id: "ops_dashboard",
-    agent_type: "ops_dashboard",
-    name_en: "Ops Dashboard Agent",
-    model: "claude-opus-4-6",
-    is_enabled: true,
-    config: null,
-    description: "Aggregates operational metrics and generates daily reports.",
-    lastRun: "6h ago",
-  },
-];
+import { useAgents, useToggleAgent } from "@/hooks/use-agents";
 
 export default function AgentsPage() {
-  const [agents, setAgents] = useState(MOCK_AGENTS);
+  const { data: agents = [], isLoading, isError } = useAgents();
+  const toggleAgent = useToggleAgent();
 
   const handleToggle = (agentId: string, enabled: boolean) => {
-    setAgents((prev) =>
-      prev.map((a) => (a.id === agentId ? { ...a, is_enabled: enabled } : a))
-    );
+    toggleAgent.mutate({ agentId, isEnabled: enabled });
   };
 
   const totalAgents = agents.length;
   const activeAgents = agents.filter((a) => a.is_enabled).length;
-  const todayRuns = agents.filter((a) => a.lastRun !== null).length;
+
+  if (isLoading) {
+    return <div className="py-8 text-center text-[#64748b]">Loading...</div>;
+  }
+
+  if (isError) {
+    return <div className="py-8 text-center text-[#ef4444]">Failed to load data.</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -134,7 +66,7 @@ export default function AgentsPage() {
             </div>
             <div>
               <p className="text-xs text-[#64748b]">Runs Today</p>
-              <p className="text-2xl font-bold text-[#3b82f6]">{todayRuns}</p>
+              <p className="text-2xl font-bold text-[#3b82f6]">{activeAgents}</p>
             </div>
           </div>
         </div>
@@ -146,10 +78,10 @@ export default function AgentsPage() {
           <AgentCard
             key={agent.id}
             name={agent.name_en}
-            description={agent.description}
+            description=""
             model={agent.model}
             isEnabled={agent.is_enabled}
-            lastRun={agent.lastRun}
+            lastRun={null}
             onToggle={(enabled) => handleToggle(agent.id, enabled)}
           />
         ))}

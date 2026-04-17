@@ -42,6 +42,8 @@ Thumbs.db
 # Logs
 *.log
 logs/
+# Exception: admin agents logs page is source code, not a log directory
+!medicare-frontend/src/app/admin/agents/logs/
 
 # Coverage
 .coverage

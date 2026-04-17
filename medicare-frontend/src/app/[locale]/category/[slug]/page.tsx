@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ProductsGrid } from "@/components/category/products-grid";
 
 interface VerticalPageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -78,28 +79,12 @@ export default async function VerticalPage({ params }: VerticalPageProps) {
         </div>
       </div>
 
-      {/* Products placeholder — populated from API in Step 1-9 */}
+      {/* Products — real API via ProductsGrid client component */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold text-[#1e293b] mb-6">
           {locale === "ja" ? "利用可能なプラン" : "Available Plans"}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <Link
-              key={i}
-              href={`/${locale}/category/${slug}/product-${i}`}
-              className="bg-white border border-[#e2e8f0] rounded-xl p-6 hover:border-[#22c55e] hover:shadow-sm transition-all"
-            >
-              <div className="h-4 w-32 bg-[#f1f5f9] rounded mb-3 animate-pulse" />
-              <div className="h-3 w-full bg-[#f1f5f9] rounded mb-2 animate-pulse" />
-              <div className="h-3 w-2/3 bg-[#f1f5f9] rounded mb-4 animate-pulse" />
-              <span className="text-[#22c55e] text-sm font-medium inline-flex items-center gap-1">
-                {locale === "ja" ? "詳細を見る" : "View details"}{" "}
-                <ArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          ))}
-        </div>
+        <ProductsGrid slug={slug} locale={locale} />
       </div>
 
       {/* CTA */}

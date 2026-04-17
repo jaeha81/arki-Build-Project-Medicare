@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     admin_api_token: str = "dev-admin-token-placeholder"
     allowed_origins: list[str] = ["http://localhost:3000"]
     debug: bool = True
+    agents_service_url: str = "http://localhost:8001"
 
     def model_post_init(self, __context: object) -> None:
         if not self.debug:
