@@ -1,7 +1,7 @@
 import asyncio
 from logging.config import fileConfig
 
-from sqlalchemy import pool
+from sqlalchemy import pool, create_engine
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
@@ -28,15 +28,20 @@ target_metadata = Base.metadata
 
 
 def get_url() -> str:
-    """Return a synchronous (psycopg2) URL for Alembic.
-
-    Alembic's offline mode and some sync adapters cannot use asyncpg.
-    We convert ``postgresql+asyncpg://`` → ``postgresql://`` here.
-    The async online mode uses async_engine_from_config and therefore
-    still benefits from async I/O under the hood via the sync wrapper.
-    """
+    """Return a synchronous (psycopg2) URL for offline mode only."""
     url: str = settings.database_url
-    return url.replace("postgresql+asyncpg://", "postgresql://")
+    url = url.replace("postgresql+asyncpg://", "postgresql://")
+    # psycopg2 uses sslmode= not ssl= query param
+    url = url.replace("?ssl=require", "?sslmode=require")
+    return url
+
+
+def get_async_url() -> str:
+    """Return the async (asyncpg) URL for online async migrations."""
+    url: str = settings.database_url
+    if not url.startswith("postgresql+asyncpg://"):
+        url = url.replace("postgresql://", "postgresql+asyncpg://")
+    return url
 
 
 def run_migrations_offline() -> None:
@@ -74,7 +79,7 @@ async def run_async_migrations() -> None:
     connection with the context.
     """
     configuration = config.get_section(config.config_ini_section, {})
-    configuration["sqlalchemy.url"] = get_url()
+    configuration["sqlalchemy.url"] = get_async_url()
 
     connectable = async_engine_from_config(
         configuration,
@@ -89,8 +94,11 @@ async def run_async_migrations() -> None:
 
 
 def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
-    asyncio.run(run_async_migrations())
+    """Run migrations in 'online' mode using a sync psycopg2 connection."""
+    sync_url = get_url()
+    connectable = create_engine(sync_url, poolclass=pool.NullPool)
+    with connectable.connect() as connection:
+        do_run_migrations(connection)
 
 
 if context.is_offline_mode():

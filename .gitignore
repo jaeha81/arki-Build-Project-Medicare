@@ -52,3 +52,5 @@ coverage.xml
 
 # Vercel
 .vercel
+migration.sql
+medicare-backend/migration.sql

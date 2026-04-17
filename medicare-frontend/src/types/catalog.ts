@@ -27,6 +27,7 @@ export interface Product {
   base_price: number;
   currency: string;
   vertical_id: string;
+  is_active: boolean;
   variants: ProductVariant[];
 }
 
@@ -37,5 +38,6 @@ export interface FAQ {
   question_ja: string;
   answer_en: string;
   answer_ja: string;
+  is_active: boolean;
   sort_order: number;
 }
