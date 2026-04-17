@@ -1,10 +1,13 @@
 """ComplianceGateAgent — 1차 패턴 검사 + Claude 2차/3차 검사."""
 
 import json
+import logging
 import re
 import uuid
 
 from pydantic import ValidationError
+
+logger = logging.getLogger(__name__)
 
 from app.agents.base_agent import BaseAgent
 from app.schemas.agent_schemas import AgentResult, ComplianceInput, ComplianceOutput
@@ -108,7 +111,7 @@ class ComplianceGateAgent(BaseAgent):
                         }
                     )
             except re.error:
-                pass  # 패턴 오류는 무시
+                logger.warning("Invalid regex pattern skipped: %r", pattern, exc_info=True)
 
         # --- 3. Claude Haiku 2차 검사 ---
         user_message = (
@@ -163,7 +166,7 @@ class ComplianceGateAgent(BaseAgent):
                     score = float(sonnet_parsed.get("compliance_score", score))
             except Exception:
                 # Sonnet 실패 시 Haiku 결과 유지
-                pass
+                logger.warning("Sonnet re-check failed; keeping Haiku result", exc_info=True)
 
         requires_human_review = score < _COMPLIANCE_REVIEW_THRESHOLD
         compliance_id = str(uuid.uuid4())
@@ -212,7 +215,7 @@ class ComplianceGateAgent(BaseAgent):
                 metadata={"approval_id": approval_id, "needs_approval": needs_approval},
             )
         except Exception:
-            pass
+            logger.warning("Failed to log compliance action; result still returned", exc_info=True)
 
         return AgentResult(
             agent_name=self.agent_name,

@@ -1,9 +1,12 @@
 """IntakeAgent — first-contact assessment for Medicare telemedicine inquiries."""
 
 import json
+import logging
 import uuid
 
 from pydantic import ValidationError
+
+logger = logging.getLogger(__name__)
 
 from app.agents.base_agent import BaseAgent
 from app.schemas.agent_schemas import AgentResult, IntakeInput, IntakeOutput
@@ -148,7 +151,7 @@ Respond in JSON format only, using exactly this structure:
             )
         except Exception:
             # Logging failure must not bubble up to the caller.
-            pass
+            logger.warning("Failed to log intake action; result still returned", exc_info=True)
 
         # --- 6. Return result ---
         return AgentResult(

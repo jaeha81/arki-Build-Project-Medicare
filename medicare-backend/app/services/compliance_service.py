@@ -1,7 +1,10 @@
 """Compliance service — prohibited phrase checking and scoring."""
 
+import logging
 import re
 from dataclasses import dataclass
+
+logger = logging.getLogger(__name__)
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -63,8 +66,7 @@ async def check_compliance(
                 if match:
                     matched_text = match.group(0)
             except re.error:
-                # 잘못된 패턴은 무시
-                pass
+                logger.warning("Invalid regex pattern skipped: %r", record.pattern, exc_info=True)
 
         if matched_text is not None:
             violations.append(
