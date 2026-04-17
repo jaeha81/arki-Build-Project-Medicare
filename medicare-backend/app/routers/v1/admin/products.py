@@ -112,9 +112,8 @@ async def patch_product(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Product {product_id!r} not found",
         )
-    for field, value in body.model_dump().items():
-        if value is not None:
-            setattr(row, field, value)
+    for field, value in body.model_dump(exclude_unset=True).items():
+        setattr(row, field, value)
     await db.commit()
     await db.refresh(row)
     return _to_record(row)

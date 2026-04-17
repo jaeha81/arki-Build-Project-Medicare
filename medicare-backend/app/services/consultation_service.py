@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import Set
 
 import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,6 +10,9 @@ from app.models.consultation import ConsultationRequest
 from app.schemas.consultation import ConsultationCreate
 
 logger = logging.getLogger(__name__)
+
+# fire-and-forget 태스크 참조를 유지해 GC에 의한 조기 수집을 방지한다
+_background_tasks: Set[asyncio.Task] = set()
 
 
 async def _fire_intake_agent(
@@ -94,7 +98,7 @@ async def create_consultation(
     await db.commit()
     await db.refresh(consultation)
 
-    asyncio.create_task(
+    task = asyncio.create_task(
         _fire_intake_agent(
             consultation_id=str(consultation.id),
             name=data.name,
@@ -104,13 +108,15 @@ async def create_consultation(
             product_interest=_extract_product_interest(data),
         )
     )
+    _background_tasks.add(task)
+    task.add_done_callback(_background_tasks.discard)
 
     return consultation
 
 
 async def get_consultation_status(db: AsyncSession, consultation_id: str) -> ConsultationRequest | None:
-    from sqlalchemy import select
-    import uuid
+    from sqlalchemy import select  # noqa: PLC0415
+    import uuid  # noqa: PLC0415
     result = await db.execute(
         select(ConsultationRequest).where(ConsultationRequest.id == uuid.UUID(consultation_id))
     )

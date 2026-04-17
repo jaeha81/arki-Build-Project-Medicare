@@ -94,8 +94,10 @@ export interface ReviewPage {
 
 // ─── Consultations ─────────────────────────────────────────────────────────────
 
+const CONSULTATION_PAGE_SIZE = 100;
+
 export function useAdminConsultations(status?: string) {
-  const params = new URLSearchParams({ skip: "0", limit: "50" });
+  const params = new URLSearchParams({ skip: "0", limit: String(CONSULTATION_PAGE_SIZE) });
   if (status) params.set("status", status);
 
   return useQuery({

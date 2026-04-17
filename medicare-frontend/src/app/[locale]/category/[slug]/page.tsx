@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { ProductsGrid } from "@/components/category/products-grid";
 
@@ -46,7 +47,8 @@ const VERTICAL_META: Record<
 
 export default async function VerticalPage({ params }: VerticalPageProps) {
   const { locale, slug } = await params;
-  const meta = VERTICAL_META[slug] ?? VERTICAL_META["weight-loss"];
+  const meta = VERTICAL_META[slug];
+  if (!meta) notFound();
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">

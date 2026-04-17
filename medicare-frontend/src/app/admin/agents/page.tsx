@@ -66,7 +66,7 @@ export default function AgentsPage() {
             </div>
             <div>
               <p className="text-xs text-[#64748b]">Runs Today</p>
-              <p className="text-2xl font-bold text-[#3b82f6]">{activeAgents}</p>
+              <p className="text-2xl font-bold text-[#3b82f6]">—</p>
             </div>
           </div>
         </div>

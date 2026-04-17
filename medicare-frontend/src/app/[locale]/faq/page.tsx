@@ -54,7 +54,7 @@ function FaqList({ vertical, locale }: { vertical: TabValue; locale: string }) {
     );
 
   return (
-    <Accordion className="space-y-2">
+    <Accordion type="single" collapsible className="space-y-2">
       {items.map((faq: FAQ, idx: number) => (
         <AccordionItem
           key={faq.id ?? idx}

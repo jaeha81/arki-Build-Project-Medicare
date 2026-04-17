@@ -25,9 +25,9 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     throw new ApiClientError(error.code, error.message, res.status);
   }
 
-  // 204 No Content — return undefined cast to T
+  // 204 No Content — void response
   if (res.status === 204) {
-    return undefined as unknown as T;
+    return undefined as T;
   }
 
   return res.json() as Promise<T>;
