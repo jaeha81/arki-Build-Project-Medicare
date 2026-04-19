@@ -66,12 +66,20 @@ export function Header() {
             <SheetTrigger className="lg:hidden p-2 text-white/60" aria-label="Open menu">
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72 bg-[#0a0f1e] border-white/10">
-              <div className="flex flex-col h-full">
+            <SheetContent
+              side="right"
+              showCloseButton={false}
+              className="data-[side=right]:w-[80vw] data-[side=right]:max-w-xs data-[side=right]:sm:max-w-sm bg-[#0a0f1e] border-white/10 overflow-y-auto"
+            >
+              <div className="flex flex-col h-full min-h-full px-5 py-5">
                 <div className="flex items-center justify-between mb-6">
                   <span className="font-bold text-lg tracking-tight text-[#2bbda4]">medipic</span>
-                  <button onClick={() => setOpen(false)}>
-                    <X className="h-5 w-5 text-white/50" />
+                  <button
+                    onClick={() => setOpen(false)}
+                    aria-label="Close menu"
+                    className="p-1 -mr-1 text-white/50 hover:text-white transition-colors"
+                  >
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
                 <nav className="flex flex-col gap-4 flex-1">

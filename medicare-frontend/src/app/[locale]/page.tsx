@@ -1,3 +1,4 @@
+import { LanguageTopBar } from "@/components/home/language-top-bar";
 import { HeroSection } from "@/components/home/hero-section";
 import { TrustBar } from "@/components/home/trust-bar";
 import { CategoryCards } from "@/components/home/category-cards";
@@ -9,6 +10,7 @@ import { BottomCta } from "@/components/home/bottom-cta";
 export default function HomePage() {
   return (
     <>
+      <LanguageTopBar />
       <HeroSection />
       <TrustBar />
       <CategoryCards />
