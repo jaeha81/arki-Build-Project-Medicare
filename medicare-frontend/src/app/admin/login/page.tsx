@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,8 +41,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center px-4">
       <div className="bg-white rounded-xl border border-[#e2e8f0] shadow-sm p-8 w-full max-w-sm">
         <div className="flex items-center gap-2 justify-center mb-6">
-          <Leaf className="h-6 w-6 text-[#22c55e]" />
-          <span className="font-bold text-lg text-[#1e293b]">Medicare Admin</span>
+          <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span> <span className="text-[#64748b] font-medium text-base">Admin</span></span>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

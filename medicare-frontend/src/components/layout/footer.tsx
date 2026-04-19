@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Leaf } from "lucide-react";
 
 const LEGAL_LINKS = [
   { href: "/legal/privacy_policy", labelKey: "privacy" },
@@ -18,9 +17,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 text-white font-bold text-lg mb-3">
-              <Leaf className="h-5 w-5 text-[#22c55e]" />
-              Medicare
+            <div className="text-white font-bold text-lg mb-3 tracking-tight">
+              <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
             </div>
             <p className="text-sm leading-relaxed">{t("complianceNote")}</p>
           </div>
@@ -45,7 +43,7 @@ export function Footer() {
             <h3 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide">
               {t("contact")}
             </h3>
-            <p className="text-sm">support@medicare-platform.com</p>
+            <p className="text-sm">support@medipic.com</p>
           </div>
         </div>
         <div className="border-t border-[#334155] pt-6 text-sm text-center">

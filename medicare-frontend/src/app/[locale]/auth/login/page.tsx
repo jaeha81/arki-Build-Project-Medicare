@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import { Leaf } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -48,8 +47,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm shadow-sm">
         <CardHeader className="text-center">
           <div className="flex items-center gap-2 justify-center mb-2">
-            <Leaf className="h-6 w-6 text-[#22c55e]" />
-            <span className="font-bold text-lg text-[#1e293b]">Medicare</span>
+            <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span></span>
           </div>
           <CardTitle className="text-xl">Welcome Back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>

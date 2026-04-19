@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { Leaf, LogOut } from "lucide-react"
+import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConsultationList } from "@/components/dashboard/consultation-list"
@@ -70,8 +70,7 @@ export default function DashboardPage() {
       <header className="bg-white border-b border-[#e2e8f0] px-4 py-3">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-[#22c55e]" />
-            <span className="font-bold text-[#1e293b]">Medicare</span>
+            <span className="font-bold tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span></span>
           </div>
           <Button
             variant="ghost"

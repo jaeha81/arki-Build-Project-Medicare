@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/category/weight-loss", labelKey: "weightLoss" },
@@ -27,9 +27,8 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-2 font-bold text-xl text-[#22c55e]">
-            <Leaf className="h-6 w-6" />
-            <span>Medicare</span>
+          <Link href={`/${locale}`} className="flex items-center font-bold text-xl tracking-tight">
+            <span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span>
           </Link>
 
           {/* Desktop nav */}
@@ -69,7 +68,7 @@ export function Header() {
             <SheetContent side="right" className="w-72">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-bold text-lg text-[#22c55e]">Medicare</span>
+                  <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span></span>
                   <button onClick={() => setOpen(false)}>
                     <X className="h-5 w-5 text-[#64748b]" />
                   </button>

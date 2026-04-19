@@ -11,7 +11,6 @@ import {
   Users,
   ShieldCheck,
   Settings,
-  Leaf,
   ChevronRight,
   Bot,
   ScrollText,
@@ -60,9 +59,8 @@ export function AdminSidebar() {
     <aside className="w-56 shrink-0 bg-[#1e293b] text-white flex flex-col min-h-screen">
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 py-4 border-b border-[#334155]">
-        <Leaf className="h-5 w-5 text-[#22c55e]" />
         <div>
-          <span className="font-bold text-sm">Medicare</span>
+          <span className="font-bold text-sm tracking-tight"><span className="text-white">medi</span><span className="text-[#22c55e]">pic</span></span>
           <span className="block text-[10px] text-[#64748b] font-medium uppercase tracking-wide">Admin OS</span>
         </div>
       </div>
@@ -102,7 +100,7 @@ export function AdminSidebar() {
 
       {/* Footer */}
       <div className="px-5 py-3 border-t border-[#334155]">
-        <p className="text-[11px] text-[#475569]">Medicare OS v0.1</p>
+        <p className="text-[11px] text-[#475569]">medipic OS v0.1</p>
       </div>
     </aside>
   );

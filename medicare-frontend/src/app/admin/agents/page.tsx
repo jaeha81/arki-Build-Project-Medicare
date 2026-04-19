@@ -29,7 +29,7 @@ export default function AgentsPage() {
       <div>
         <h1 className="text-2xl font-bold text-[#1e293b]">Agent Control Center</h1>
         <p className="text-sm text-[#64748b] mt-1">
-          Manage and monitor all AI agents in the Medicare OS
+          Manage and monitor all AI agents in the medipic OS
         </p>
       </div>
 

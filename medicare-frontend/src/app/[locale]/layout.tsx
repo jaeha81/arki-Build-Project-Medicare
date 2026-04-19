@@ -10,7 +10,7 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Project Medicare — Online Medical Consultation",
+  title: "medipic — Online Medical Consultation",
   description: "Licensed physicians. Science-backed treatments. Discreet delivery.",
 };
 

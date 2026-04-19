@@ -3,7 +3,7 @@ import { AdminHeader } from "@/components/admin/admin-header";
 import { QueryProvider } from "@/providers/query-provider";
 
 export const metadata = {
-  title: "Medicare Admin OS",
+  title: "medipic Admin OS",
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
