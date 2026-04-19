@@ -54,7 +54,7 @@ function FaqList({ vertical, locale }: { vertical: TabValue; locale: string }) {
     );
 
   return (
-    <Accordion openMultiple={false} className="space-y-2">
+    <Accordion className="space-y-2">
       {items.map((faq: FAQ, idx: number) => (
         <AccordionItem
           key={faq.id ?? idx}
