@@ -1,5 +1,5 @@
 # Project Medicare — 작업 인수인계 메모
-> 마지막 업데이트: 2026-04-18
+> 마지막 업데이트: 2026-04-18 (Vercel 배포 완료)
 > GitHub: https://github.com/jaeha81/arki-Build-Project-Medicare.git
 
 ---
@@ -17,39 +17,13 @@
 | Vercel 프로젝트 연결 | `medicare-frontend` 연결, 환경변수 3개 등록 |
 | GitHub Secrets 등록 | 7개 시크릿 등록 완료 |
 | TypeScript 타입 수정 | `FAQ.is_active`, `Product.is_active` 추가, e2e/playwright tsconfig 제외 |
+| **Vercel 프론트엔드 배포** | ✅ **배포 완료** → https://medicare-frontend-rho.vercel.app |
 
 ---
 
 ### ❌ 미완료 — 다음 PC에서 계속할 작업
 
-#### 🔴 1순위: Vercel 빌드 오류 수정
-
-**오류 내용:**
-```
-Type '{ children: Element[]; openMultiple: boolean; className: string; }'
-is not assignable to type 'IntrinsicAttributes & Props<any>'
-```
-
-**오류 파일:** `medicare-frontend/src/app/[locale]/faq/page.tsx` 57번째 줄
-
-**원인:** `src/components/ui/accordion.tsx`가 `@base-ui/react/accordion` 기반.  
-Radix UI의 `type="single" collapsible` props가 아닌 Base UI props를 써야 함.
-
-**수정 방법 (PC에서 확인 후 선택):**
-```bash
-# Base UI Accordion의 실제 Root props 확인
-cat medicare-frontend/node_modules/@base-ui-components/react/accordion/index.d.ts | head -60
-```
-
-수정 후 배포:
-```bash
-cd medicare-frontend
-vercel deploy --prod --token $VERCEL_TOKEN --scope dltkddlf231-8261s-projects
-```
-
----
-
-#### 🟡 2순위: Railway 배포 (백엔드)
+#### 🟡 1순위: Railway 배포 (백엔드)
 
 **문제:** Railway 무료 체험 만료 → Hobby Plan ($5/월) 결제 필요  
 **링크:** https://railway.app/account/billing
