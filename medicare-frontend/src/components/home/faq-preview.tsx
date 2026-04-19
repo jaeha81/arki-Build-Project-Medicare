@@ -52,9 +52,9 @@ export function FaqPreview() {
   const faqs = locale === "ja" ? FAQ_PREVIEW_JA : FAQ_PREVIEW_EN;
 
   return (
-    <section className="py-16 px-6 bg-white">
+    <section className="py-20 px-6 bg-[#0d1526]">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-[#1e293b] text-center mb-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">
           {t("title")}
         </h2>
         <Accordion className="space-y-2">
@@ -62,12 +62,12 @@ export function FaqPreview() {
             <AccordionItem
               key={idx}
               value={`faq-${idx}`}
-              className="border border-[#e2e8f0] rounded-lg px-4"
+              className="border border-white/10 rounded-lg px-4 bg-white/5"
             >
-              <AccordionTrigger className="text-left text-[#1e293b] font-medium hover:text-[#22c55e] hover:no-underline">
+              <AccordionTrigger className="text-left text-white font-medium hover:text-[#22c55e] hover:no-underline">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-[#64748b] leading-relaxed">
+              <AccordionContent className="text-white/55 leading-relaxed">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
@@ -76,7 +76,7 @@ export function FaqPreview() {
         <div className="text-center mt-8">
           <Link
             href={`/${locale}/faq`}
-            className="text-[#22c55e] hover:text-[#16a34a] font-medium text-sm"
+            className="text-[#22c55e] hover:text-[#4ade80] font-medium text-sm transition-colors"
           >
             {locale === "ja" ? "すべての質問を見る →" : "View all FAQs →"}
           </Link>

@@ -19,18 +19,18 @@ export function SocialProof() {
         ];
 
   return (
-    <section className="py-14 px-6 bg-[#f0fdf4]">
+    <section className="py-16 px-6 bg-[#0a0f1e]">
       <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-6">
           {stats.map(({ value, label }) => (
             <div key={label} className="text-center">
-              <div className="text-3xl font-bold text-[#22c55e] mb-1">{value}</div>
-              <div className="text-sm text-[#64748b]">{label}</div>
+              <div className="text-4xl font-bold text-[#22c55e] mb-1">{value}</div>
+              <div className="text-sm text-white/50">{label}</div>
             </div>
           ))}
         </div>
         {/* COMPLIANCE PLACEHOLDER */}
-        <p className="text-xs text-center text-[#94a3b8]">
+        <p className="text-xs text-center text-white/25">
           {locale === "ja"
             ? "* 患者アンケートより。個人差があります。結果を保証するものではありません。"
             : "* Based on patient surveys. Individual results may vary. Results are not guaranteed."}

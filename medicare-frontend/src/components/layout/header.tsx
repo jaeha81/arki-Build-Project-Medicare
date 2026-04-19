@@ -23,12 +23,13 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#e2e8f0] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-50 w-full bg-[#0a0f1e]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0a0f1e]/90 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
+
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center font-bold text-xl tracking-tight">
-            <span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span>
+          <Link href={`/${locale}`} className="flex items-center font-bold text-xl tracking-tight select-none">
+            <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
           </Link>
 
           {/* Desktop nav */}
@@ -37,7 +38,7 @@ export function Header() {
               <Link
                 key={href}
                 href={`/${locale}${href}`}
-                className="text-sm text-[#64748b] hover:text-[#22c55e] transition-colors font-medium"
+                className="text-sm text-white/60 hover:text-white transition-colors font-medium"
               >
                 {t(labelKey)}
               </Link>
@@ -48,13 +49,13 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href={`/${otherLocale}`}
-              className="text-sm text-[#64748b] hover:text-[#1e293b] font-medium px-2"
+              className="text-sm text-white/50 hover:text-white font-medium px-2 transition-colors"
             >
               {otherLocale === "ja" ? "日本語" : "EN"}
             </Link>
             <Button
               render={<Link href={`/${locale}/consultation`} />}
-              className="bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-lg px-5"
+              className="bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-lg px-5 font-semibold"
             >
               {t("startConsultation")}
             </Button>
@@ -62,15 +63,17 @@ export function Header() {
 
           {/* Mobile hamburger */}
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger className="lg:hidden p-2 text-[#64748b]" aria-label="Open menu">
+            <SheetTrigger className="lg:hidden p-2 text-white/60" aria-label="Open menu">
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
+            <SheetContent side="right" className="w-72 bg-[#0a0f1e] border-white/10">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span></span>
+                  <span className="font-bold text-lg tracking-tight">
+                    <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
+                  </span>
                   <button onClick={() => setOpen(false)}>
-                    <X className="h-5 w-5 text-[#64748b]" />
+                    <X className="h-5 w-5 text-white/50" />
                   </button>
                 </div>
                 <nav className="flex flex-col gap-4 flex-1">
@@ -78,17 +81,17 @@ export function Header() {
                     <Link
                       key={href}
                       href={`/${locale}${href}`}
-                      className="text-base text-[#1e293b] hover:text-[#22c55e] font-medium py-1"
+                      className="text-base text-white/70 hover:text-white font-medium py-1 transition-colors"
                       onClick={() => setOpen(false)}
                     >
                       {t(labelKey)}
                     </Link>
                   ))}
                 </nav>
-                <div className="flex flex-col gap-3 pt-4 border-t border-[#e2e8f0]">
+                <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
                   <Link
                     href={`/${otherLocale}`}
-                    className="text-sm text-[#64748b] font-medium"
+                    className="text-sm text-white/50 font-medium"
                     onClick={() => setOpen(false)}
                   >
                     {otherLocale === "ja" ? "日本語で見る" : "View in English"}

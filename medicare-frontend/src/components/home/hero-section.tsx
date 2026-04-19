@@ -1,114 +1,92 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
-import { ArrowRight, Shield, Star, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-const TRUST_BADGES = [
-  { icon: Shield, label_en: "Licensed Physicians", label_ja: "認定医師" },
-  { icon: Star, label_en: "4.9 / 5 Rating", label_ja: "4.9 / 5 評価" },
-  { icon: Clock, label_en: "24h Support", label_ja: "24時間サポート" },
+const STATS = [
+  { value: "50,000+", label_en: "Patients Served", label_ja: "患者数" },
+  { value: "4.9★", label_en: "Patient Rating", label_ja: "患者評価" },
+  { value: "100%", label_en: "Licensed Doctors", label_ja: "認定医師" },
+  { value: "24h", label_en: "Medical Support", label_ja: "医療サポート" },
 ];
 
 export function HeroSection() {
-  const t = useTranslations("home.hero");
   const locale = useLocale();
 
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Two-column layout */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Text */}
-          <div className="flex flex-col gap-6">
-            <div className="inline-flex items-center gap-2 bg-[#dcfce7] text-[#15803d] text-sm font-semibold px-4 py-1.5 rounded-full w-fit">
-              <span className="w-2 h-2 bg-[#22c55e] rounded-full animate-pulse" />
-              {locale === "ja" ? "医師監督のもとで安心" : "Physician-supervised care"}
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1e293b] leading-[1.1] tracking-tight">
-              {t("headline")}
-            </h1>
-
-            <p className="text-lg text-[#64748b] leading-relaxed max-w-lg">
-              {t("subtext")}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href={`/${locale}/consultation`}
-                className="inline-flex items-center justify-center gap-2 bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-base shadow-lg shadow-green-200"
-              >
-                {t("cta")}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href={`/${locale}/how-it-works`}
-                className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#22c55e] hover:text-[#22c55e] text-[#1e293b] font-medium px-8 py-3.5 rounded-xl transition-colors text-base"
-              >
-                {locale === "ja" ? "ご利用方法を見る" : "See how it works"}
-              </Link>
-            </div>
-
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-4 pt-2">
-              {TRUST_BADGES.map(({ icon: Icon, label_en, label_ja }) => (
-                <div key={label_en} className="flex items-center gap-2 text-sm text-[#64748b]">
-                  <div className="w-8 h-8 bg-[#f0fdf4] rounded-lg flex items-center justify-center">
-                    <Icon className="h-4 w-4 text-[#22c55e]" />
-                  </div>
-                  <span className="font-medium">{locale === "ja" ? label_ja : label_en}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Image collage */}
-          <div className="relative hidden lg:block">
-            <div className="relative h-[520px] w-full">
-              {/* Main large image */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80"
-                  alt="Online medical consultation"
-                  fill
-                  sizes="50vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#22c55e]/10 to-transparent" />
-              </div>
-
-              {/* Floating card — top right */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 z-10 w-52">
-                <div className="w-10 h-10 bg-[#dcfce7] rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Star className="h-5 w-5 text-[#22c55e]" />
-                </div>
-                <div>
-                  <div className="text-xs text-[#64748b]">{locale === "ja" ? "患者満足度" : "Patient Rating"}</div>
-                  <div className="font-bold text-[#1e293b]">4.9 / 5.0 ⭐</div>
-                </div>
-              </div>
-
-              {/* Floating card — bottom left */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 z-10 w-56">
-                <div className="w-10 h-10 bg-[#dbeafe] rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-5 w-5 text-[#3b82f6]" />
-                </div>
-                <div>
-                  <div className="text-xs text-[#64748b]">{locale === "ja" ? "認定医師" : "Certified Doctors"}</div>
-                  <div className="font-bold text-[#1e293b]">
-                    {locale === "ja" ? "全員が資格保有" : "100% Licensed"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden bg-[#0a0f1e]">
+      {/* Background image with dark overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1800&q=80"
+          alt="Medical consultation"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-20"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1e]/60 via-[#0a0f1e]/40 to-[#0a0f1e]" />
       </div>
 
-      {/* Subtle bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#e2e8f0] to-transparent" />
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8 pt-20 pb-12 text-center">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 border border-[#22c55e]/30 bg-[#22c55e]/10 text-[#4ade80] text-sm font-semibold px-4 py-1.5 rounded-full mb-8">
+          <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-pulse" />
+          {locale === "ja" ? "医師監督のオンライン診療" : "Physician-supervised online care"}
+        </div>
+
+        {/* Headline */}
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6">
+          {locale === "ja" ? (
+            <>
+              医療を、あなたの<br />
+              <em className="not-italic text-[#22c55e]">リアルな生活</em>のために
+            </>
+          ) : (
+            <>
+              Healthcare,{" "}
+              <em className="not-italic text-[#22c55e]">redefined</em>
+              <br />
+              for real life.
+            </>
+          )}
+        </h1>
+
+        {/* Subtext */}
+        <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
+          {locale === "ja"
+            ? "認定医師によるオーダーメイドの治療プランで、あなたの健康目標を実現します。"
+            : "Licensed physicians. Science-backed treatments. Delivered to your door — no clinic visits required."}
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
+          <Link
+            href={`/${locale}/consultation`}
+            className="inline-flex items-center justify-center gap-2 bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold px-9 py-4 rounded-xl transition-colors text-base shadow-lg shadow-green-900/30"
+          >
+            {locale === "ja" ? "無料相談を始める" : "Get Started Free"}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href={`/${locale}/how-it-works`}
+            className="inline-flex items-center justify-center gap-2 border border-white/20 hover:border-white/50 text-white font-medium px-9 py-4 rounded-xl transition-colors text-base"
+          >
+            {locale === "ja" ? "ご利用方法" : "How it works"}
+          </Link>
+        </div>
+
+        {/* Stats bar */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/10 pt-10">
+          {STATS.map(({ value, label_en, label_ja }) => (
+            <div key={value} className="flex flex-col items-center gap-1">
+              <span className="text-2xl md:text-3xl font-bold text-white">{value}</span>
+              <span className="text-sm text-white/50">{locale === "ja" ? label_ja : label_en}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
