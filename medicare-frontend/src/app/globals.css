@@ -10,6 +10,19 @@
   }
 }
 
+/* Force opaque white background on all Base UI select/popover surfaces. */
+[data-slot="select-content"],
+[data-slot="select-scroll-up-button"],
+[data-slot="select-scroll-down-button"] {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+[data-slot="select-content"] [role="option"]:hover,
+[data-slot="select-content"] [role="option"][data-highlighted] {
+  background-color: #f1f5f9 !important;
+}
+
 @layer base {
   .theme {
     --font-heading: var(--font-sans);
