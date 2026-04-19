@@ -1,7 +1,6 @@
 {
   "framework": "nextjs",
   "name": "medipic",
-  "rootDirectory": "medicare-frontend",
   "buildCommand": "npm install --legacy-peer-deps && npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install --legacy-peer-deps",
