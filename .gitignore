@@ -54,3 +54,4 @@ coverage.xml
 .vercel
 migration.sql
 medicare-backend/migration.sql
+.claude/
