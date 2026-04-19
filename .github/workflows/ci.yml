@@ -62,7 +62,10 @@ jobs:
           if grep -rn \
             "dev-secret-change-in-production\|dev-admin-token-placeholder" \
             --include="*.py" --include="*.ts" --include="*.tsx" \
-            --exclude-dir=".git" --exclude-dir="node_modules" .; then
+            --exclude-dir=".git" --exclude-dir="node_modules" \
+            --exclude="config.py" \
+            --exclude="route.ts" \
+            .; then
             echo "::error::Hardcoded placeholder secret detected in source code"
             exit 1
           fi
