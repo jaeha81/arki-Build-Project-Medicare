@@ -47,7 +47,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm shadow-sm">
         <CardHeader className="text-center">
           <div className="flex items-center gap-2 justify-center mb-2">
-            <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span></span>
+            <span className="font-bold text-xl tracking-tight text-[#14685a]">medipic</span>
           </div>
           <CardTitle className="text-xl">Welcome Back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>

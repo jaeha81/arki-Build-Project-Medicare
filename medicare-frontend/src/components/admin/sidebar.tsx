@@ -60,7 +60,7 @@ export function AdminSidebar() {
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 py-4 border-b border-[#334155]">
         <div>
-          <span className="font-bold text-sm tracking-tight"><span className="text-white">medi</span><span className="text-[#22c55e]">pic</span></span>
+          <span className="font-bold text-sm tracking-tight text-[#2bbda4]">medipic</span>
           <span className="block text-[10px] text-[#64748b] font-medium uppercase tracking-wide">Admin OS</span>
         </div>
       </div>

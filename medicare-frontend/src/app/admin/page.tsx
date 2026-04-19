@@ -7,7 +7,7 @@ export default function AdminDashboardPage() {
     <div className="max-w-7xl mx-auto space-y-8">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1e293b] tracking-tight"><span>medi</span><span className="text-[#22c55e]">pic</span> OS</h1>
+        <h1 className="text-2xl font-bold tracking-tight"><span className="text-[#14685a]">medipic</span><span className="text-[#1e293b]"> OS</span></h1>
         <p className="text-sm text-[#64748b] mt-1">Platform overview — all verticals</p>
       </div>
 

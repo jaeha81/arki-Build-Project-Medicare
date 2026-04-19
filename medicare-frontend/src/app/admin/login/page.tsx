@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center px-4">
       <div className="bg-white rounded-xl border border-[#e2e8f0] shadow-sm p-8 w-full max-w-sm">
         <div className="flex items-center gap-2 justify-center mb-6">
-          <span className="font-bold text-lg tracking-tight"><span className="text-[#1e293b]">medi</span><span className="text-[#22c55e]">pic</span> <span className="text-[#64748b] font-medium text-base">Admin</span></span>
+          <span className="font-bold text-lg tracking-tight text-[#14685a]">medipic</span><span className="text-[#64748b] font-medium text-base ml-1.5">Admin</span>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

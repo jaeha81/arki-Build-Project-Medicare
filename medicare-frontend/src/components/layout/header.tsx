@@ -28,8 +28,8 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
 
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center font-bold text-xl tracking-tight select-none">
-            <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
+          <Link href={`/${locale}`} className="flex items-center select-none">
+            <span className="font-bold text-xl tracking-tight text-[#2bbda4]">medipic</span>
           </Link>
 
           {/* Desktop nav */}
@@ -69,9 +69,7 @@ export function Header() {
             <SheetContent side="right" className="w-72 bg-[#0a0f1e] border-white/10">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-bold text-lg tracking-tight">
-                    <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
-                  </span>
+                  <span className="font-bold text-lg tracking-tight text-[#2bbda4]">medipic</span>
                   <button onClick={() => setOpen(false)}>
                     <X className="h-5 w-5 text-white/50" />
                   </button>

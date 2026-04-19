@@ -18,7 +18,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="text-white font-bold text-lg mb-3 tracking-tight">
-              <span className="text-white">medi</span><span className="text-[#22c55e]">pic</span>
+              <span className="text-[#2bbda4]">medipic</span>
             </div>
             <p className="text-sm leading-relaxed">{t("complianceNote")}</p>
           </div>
