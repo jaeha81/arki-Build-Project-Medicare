@@ -9,6 +9,7 @@ export interface ConsultationCreate {
   consent_terms: boolean;
   consent_privacy: boolean;
   consent_medical: boolean;
+  category_answers?: Record<string, unknown> | null;
 }
 
 export type ConsultationStatus =

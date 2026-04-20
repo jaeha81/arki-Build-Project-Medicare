@@ -7,6 +7,7 @@ from app.models.agents import AgentConfiguration, AdminApproval, AgentActionLog
 from app.models.review import Review
 from app.models.compliance import ProhibitedPhrase
 from app.models.subscription import Subscription
+from app.models.prescription import Prescription
 
 __all__ = [
     "Base",
@@ -23,4 +24,5 @@ __all__ = [
     "Review",
     "ProhibitedPhrase",
     "Subscription",
+    "Prescription",
 ]

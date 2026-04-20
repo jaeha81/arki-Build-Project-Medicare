@@ -19,8 +19,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { CategoryQuestions } from "@/components/consultation/CategoryQuestions";
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 const step2Schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -303,6 +304,20 @@ export default function ConsultationPage() {
 
   function Step4() {
     return (
+      <CategoryQuestions
+        verticalId={data.vertical_id ?? ""}
+        locale={locale}
+        onBack={prevStep}
+        onComplete={(answers) => {
+          updateData({ category_answers: answers });
+          nextStep();
+        }}
+      />
+    );
+  }
+
+  function Step5() {
+    return (
       <div>
         <h2 className="text-xl font-bold text-[#1e293b] mb-2">
           {isJa
@@ -346,7 +361,7 @@ export default function ConsultationPage() {
     );
   }
 
-  function Step5() {
+  function Step6() {
     const [consents, setConsents] = useState({
       terms: data.consent_terms ?? false,
       privacy: data.consent_privacy ?? false,
@@ -476,7 +491,7 @@ export default function ConsultationPage() {
     );
   }
 
-  const STEP_COMPONENTS = [Step1, Step2, Step3, Step4, Step5];
+  const STEP_COMPONENTS = [Step1, Step2, Step3, Step4, Step5, Step6];
   const CurrentStep = STEP_COMPONENTS[step - 1];
 
   return (

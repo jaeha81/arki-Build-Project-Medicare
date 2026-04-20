@@ -3,7 +3,8 @@
 import { useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { LogOut } from "lucide-react"
+import { LogOut, Pill } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConsultationList } from "@/components/dashboard/consultation-list"
@@ -100,13 +101,13 @@ export default function DashboardPage() {
           <Card className="border border-[#e2e8f0]">
             <CardHeader className="pb-3">
               <CardTitle className="text-base font-semibold text-[#1e293b]">
-                My Consultations
+                {locale === "ja" ? "相談一覧" : "My Consultations"}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {consultationsQuery.isLoading ? (
                 <p className="text-sm text-muted-foreground text-center py-4">
-                  Loading...
+                  {locale === "ja" ? "読み込み中..." : "Loading..."}
                 </p>
               ) : (
                 <ConsultationList consultations={consultations} locale={locale} />
@@ -118,13 +119,13 @@ export default function DashboardPage() {
           <Card className="border border-[#e2e8f0]">
             <CardHeader className="pb-3">
               <CardTitle className="text-base font-semibold text-[#1e293b]">
-                My Subscriptions
+                {locale === "ja" ? "サブスクリプション" : "My Subscriptions"}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {subscriptionsQuery.isLoading ? (
                 <p className="text-sm text-muted-foreground text-center py-4">
-                  Loading...
+                  {locale === "ja" ? "読み込み中..." : "Loading..."}
                 </p>
               ) : (
                 <SubscriptionCard
@@ -134,6 +135,28 @@ export default function DashboardPage() {
               )}
             </CardContent>
           </Card>
+
+          {/* Prescriptions shortcut */}
+          <Link href={`/${locale}/dashboard/prescriptions`} className="md:col-span-2">
+            <Card className="border border-[#e2e8f0] hover:border-[#22c55e] transition-colors cursor-pointer group">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#f0fdf4] flex items-center justify-center group-hover:bg-[#dcfce7] transition-colors">
+                    <Pill className="h-5 w-5 text-[#22c55e]" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#1e293b] text-sm">
+                      {locale === "ja" ? "処方履歴" : "My Prescriptions"}
+                    </p>
+                    <p className="text-xs text-[#64748b]">
+                      {locale === "ja" ? "医師から発行された処方箋を確認する" : "View prescriptions issued by your physician"}
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[#94a3b8] text-sm group-hover:text-[#22c55e] transition-colors">→</span>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </main>
     </div>

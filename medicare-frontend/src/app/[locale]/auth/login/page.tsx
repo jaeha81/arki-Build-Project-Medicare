@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useLogin } from "@/hooks/use-auth"
+import { LineLoginButton } from "@/components/auth/LineLoginButton"
 
 const loginSchema = z.object({
   email: z.string().email("Valid email is required"),
@@ -97,6 +98,18 @@ export default function LoginPage() {
               {login.isPending ? "Signing in..." : "Sign In"}
             </Button>
           </form>
+        </CardContent>
+
+        <CardContent className="pt-0">
+          <div className="relative my-2">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-[#e2e8f0]" />
+            </div>
+            <div className="relative flex justify-center text-xs text-muted-foreground">
+              <span className="bg-white px-2">or</span>
+            </div>
+          </div>
+          <LineLoginButton locale={locale} />
         </CardContent>
 
         <CardFooter className="justify-center">
