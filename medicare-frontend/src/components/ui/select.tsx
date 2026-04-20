@@ -83,18 +83,22 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
-          style={{
-            backgroundColor: "#ffffff",
-            color: "#0f172a",
-            backgroundImage: "none",
-            opacity: 1,
-          }}
-          className={cn("!bg-white relative isolate z-[100] max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg shadow-xl ring-1 ring-black/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
+          className={cn("relative isolate z-[100] max-h-[300px] w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-hidden rounded-lg shadow-xl ring-1 ring-black/10 duration-100 data-[align-trigger=true]:animate-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
           {...props}
         >
-          <SelectScrollUpButton />
-          <SelectPrimitive.List>{children}</SelectPrimitive.List>
-          <SelectScrollDownButton />
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#0f172a",
+              padding: "4px 0",
+              maxHeight: "300px",
+              overflowY: "auto",
+            }}
+          >
+            <SelectScrollUpButton />
+            <SelectPrimitive.List>{children}</SelectPrimitive.List>
+            <SelectScrollDownButton />
+          </div>
         </SelectPrimitive.Popup>
       </SelectPrimitive.Positioner>
     </SelectPrimitive.Portal>
